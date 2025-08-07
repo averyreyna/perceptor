@@ -3,6 +3,7 @@
 const { Command } = require('commander');
 const readline = require('readline');
 const CodingTutor = require('./lib/tutor');
+const CodebaseAnalyzer = require('./lib/codebaseAnalyzer');
 
 const program = new Command();
 
@@ -12,6 +13,13 @@ program
   .version('1.0.0')
   .action(() => {
     startTutorSession();
+  });
+
+program
+  .command('analyze')
+  .description('Analyze the current codebase structure')
+  .action(() => {
+    analyzeCodebase();
   });
 
 function startThinkingAnimation() {
@@ -59,22 +67,45 @@ function stopThinkingAnimation(animationData, responseTokens = 0) {
   process.stdout.write('\r' + ' '.repeat(80) + '\r');
 }
 
+async function analyzeCodebase() {
+  console.log('🔍 Analyzing codebase structure...\n');
+  
+  try {
+    const analyzer = new CodebaseAnalyzer();
+    const analysis = analyzer.analyzeCurrentDirectory();
+    const formattedOutput = analyzer.formatAnalysisForLLM(analysis);
+    
+    console.log(formattedOutput);
+  } catch (error) {
+    console.log(`❌ Error analyzing codebase: ${error.message}`);
+  }
+}
+
 async function startTutorSession() {
+  // ANSI color codes - using the same baby blue from thinking animation
+  const colors = {
+    lightBlue: '\x1b[38;5;117m',
+    gray: '\x1b[90m',
+    reset: '\x1b[0m'
+  };
+
   console.log('');
-  console.log('██████╗ ███████╗██████╗  ██████╗███████╗██████╗ ████████╗ ██████╗ ██████╗ ');
-  console.log('██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗');
-  console.log('██████╔╝█████╗  ██████╔╝██║     █████╗  ██████╔╝   ██║   ██║   ██║██████╔╝');
-  console.log('██╔═══╝ ██╔══╝  ██╔══██╗██║     ██╔══╝  ██╔═══╝    ██║   ██║   ██║██╔══██╗');
-  console.log('██║     ███████╗██║  ██║╚██████╗███████╗██║        ██║   ╚██████╔╝██║  ██║');
-  console.log('╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝        ╚═╝    ╚═════╝ ╚═╝  ╚═╝');
+  console.log(' ' + colors.lightBlue + '✦ Welcome to Perceptor!' + colors.reset);
   console.log('');
-  console.log('I\'m here to guide you in learning to code. Ask me anything!');
-  console.log('Type "exit" or "quit" to end the session.\n');
+  console.log(' ' + colors.gray + 'Your hands-on coding tutor - learn by building, not by reading' + colors.reset);
+  console.log('');
+  console.log(' ' + colors.gray + 'Get started:' + colors.reset);
+  console.log('   • Ask what you want to build: ' + colors.lightBlue + '"I want to make a calculator"' + colors.reset);
+  console.log('   • Get help with your code: ' + colors.lightBlue + '"Why isn\'t my function working?"' + colors.reset);
+  console.log('   • Explore this project: ' + colors.lightBlue + '"Show me the codebase structure"' + colors.reset);
+  console.log('');
+  console.log(' ' + colors.gray + 'Type "exit" or "quit" to end the session' + colors.reset);
+  console.log('');
 
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: 'perceptor> '
+    prompt: ''
   });
 
   const tutor = new CodingTutor();
@@ -85,7 +116,7 @@ async function startTutorSession() {
     const userInput = input.trim();
     
     if (userInput.toLowerCase() === 'exit' || userInput.toLowerCase() === 'quit') {
-      console.log('\nHappy coding!');
+      console.log('\nHope you learned something!');
       rl.close();
       return;
     }
