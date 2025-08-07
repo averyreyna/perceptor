@@ -17,29 +17,20 @@ program
 function startThinkingAnimation() {
   // ANSI color codes
   const colors = {
-    orange: '\x1b[38;5;208m',
+    lightBlue: '\x1b[38;5;117m', // Light/baby blue
     gray: '\x1b[90m',
     reset: '\x1b[0m'
   };
-  
-  // Thinking synonyms that change each time
-  const thinkingSynonyms = [
-    'Pondering', 'Reflecting', 'Contemplating', 'Analyzing', 'Processing',
-    'Deliberating', 'Considering', 'Evaluating', 'Examining', 'Cogitating',
-    'Ruminating', 'Mulling over', 'Working through', 'Figuring out', 'Elucidating'
-  ];
-  
-  // Moving icons (similar to Claude Code)
-  const icons = ['⚡', '🔮', '🧠', '💭', '✨'];
-  const selectedIcon = icons[Math.floor(Math.random() * icons.length)];
-  const selectedSynonym = thinkingSynonyms[Math.floor(Math.random() * thinkingSynonyms.length)];
   
   let seconds = 0;
   let estimatedTokens = 0;
   let frameIndex = 0;
   
-  // Moving icon frames
-  const iconFrames = ['  ', ' ', '', ' '];
+  // Animated ASCII star frames (similar to Claude Code)
+  const starFrames = ['*', '✦', '✧', '✦'];
+  
+  // Static dots
+  const staticDots = '...';
   
   const startTime = Date.now();
   
@@ -49,12 +40,12 @@ function startThinkingAnimation() {
     seconds = Math.floor((Date.now() - startTime) / 1000);
     estimatedTokens = Math.floor(seconds * 12); // Rough token estimation
     
-    const movingIcon = iconFrames[frameIndex % iconFrames.length] + selectedIcon;
-    const display = `${colors.orange}${movingIcon} ${selectedSynonym}...${colors.reset} ${colors.gray}(${seconds}s • ↑ ${estimatedTokens} tokens • esc to interrupt)${colors.reset}`;
+    const animatedStar = starFrames[frameIndex % starFrames.length];
+    const display = `${colors.lightBlue}${animatedStar} Thinking${staticDots}${colors.reset} ${colors.gray}(${seconds}s • ↑ ${estimatedTokens} tokens • esc to interrupt)${colors.reset}`;
     
     process.stdout.write(`\r${display}`);
     frameIndex++;
-  }, 250);
+  }, 500);
   
   return { interval, startTime };
 }
@@ -108,7 +99,7 @@ async function startTutorSession() {
     
     try {
       const response = await tutor.respond(userInput);
-      const responseTokens = Math.floor(response.length / 4); // Rough token estimation
+      const responseTokens = Math.floor(response.length / 4);
       stopThinkingAnimation(animationData, responseTokens);
       console.log(`${response}\n`);
     } catch (error) {
