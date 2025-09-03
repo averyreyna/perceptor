@@ -6,8 +6,8 @@ Perceptor is a hands-on coding tutor CLI tool that guides beginner programmers t
 
 Before you begin, ensure you have the following installed:
 
-• Node.js (v18 or later)
-• npm (v9 or later)
+- Node.js (v18 or later)
+- npm (v9 or later)
 
 ## Local Development
 
@@ -40,7 +40,7 @@ npm start
 
 ## Available Scripts
 
-• `npm start` - Start the interactive coding tutor session
-• `npm run test` - Run the test suite with Socratic validation
-• `npm run test:socratic` - Run Socratic method validation tests
-• `npm run test:mock` - Run ESLint to check for code issues
+- `npm start` - Start the interactive coding tutor session
+- `npm run test` - Run the test suite with Socratic validation
+- `npm run test:socratic` - Run Socratic method validation tests
+- `npm run test:mock` - Run ESLint to check for code issues
