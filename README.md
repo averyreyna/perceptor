@@ -1,4 +1,4 @@
-# Preceptor
+# Perceptor
 
 Perceptor is a hands-on coding tutor CLI tool that guides beginner programmers through learning to code using the Socratic method. Rather than providing direct answers, it asks questions and guides discovery, helping you understand the "why" behind programming concepts. The tool features interactive chat sessions, contextual responses for functions/variables/loops/conditionals, code feedback, and conversation history to create an engaging learning experience.
 
